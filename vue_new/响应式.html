@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 存储副作用函数的桶
+    const bucket = new WeakMap()
+
+    const data = { 
+      text: 'hello world',
+      name: 'abc'
+    }
+
+    let activeEffect
+
+    function effect(fn) {
+      activeEffect = fn
+
+      fn()
+    }
+
+    const obj = new Proxy(data, {
+      get(target, key) {
+        if (!activeEffect) return target[key]
+
+        let depsMap = bucket.get(target)
+
+        if (!depsMap) {
+          depsMap = new Map()
+          bucket.set(target, (depsMap = new Map()))
+        }
+
+        let deps = depsMap.get(key)
+
+        if (!deps) {
+          depsMap.set(key, (deps = new Set()))
+        }
+
+        deps.add(activeEffect)
+
+        return target[key]
+      },
+
+      set(target, key, newVal) {
+        target[key] = newVal
+
+        const depsMap = bucket.get(target)
+
+        if (!depsMap) return
+
+        const effects = depsMap.get(key)
+
+        effects && effects.forEach(fn => fn())
+      }
+    })
+
+    effect(() => {
+      console.log('effect run')
+      document.body.innerText = obj.text
+    })
+
+    setTimeout(() => {
+      obj.text = 'kkkkyrie'
+    }, 1000)
+    setTimeout(() => {
+      obj.text = 'kd'
+    }, 2000)
+    setTimeout(() => {
+      obj.text = 'why'
+    }, 3000)
+
+  </script>
+</body>
+
+</html>

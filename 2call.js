@@ -1,12 +1,3 @@
-// 第一版
-// Function.prototype.myCall = function(obj, ...args) {
-//   if(typeof this !== 'function') throw new Error('错误')
-//   let sym = Symbol()
-//   obj[sym] = this
-//   obj[sym](...args)
-//   delete obj[sym]
-// }
-
 Function.prototype.myCall = function(context, ...args) {
   if(typeof this !== 'function') throw new Error('错误')
   let context = context || window

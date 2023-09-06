@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function isInViewport(imgEle) {
+      imgEle.offsetTop < window.innerHeight + document.body.scrollTop
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const lazyImages = Array.from(document.querySelectorAll(img.lazy))
+      let canRun = true
+
+      const lazyLoad = () => {
+        if(!canRun) return
+        canRun = true
+
+        setTimeout(() => {
+          lazyImages.forEach(lazyImage => {
+            if (isInViewport(lazyImage)) {
+              lazyImage.src = lazyImage.dataset.src
+              lazyImage.classList.remove('lazy')
+            }
+            lazyImages = lazyImages.filter(image => {
+              return image !== lazyImage
+            }) 
+
+            if(lazyImage.length === 0) {
+              document.removeEventListener('scroll', lazyLoad)
+              window.removeEventListener('resize', lazyLoad)
+            }
+          })
+          canRun = true
+        }, 200);
+      }
+
+      document.addEventListener('scroll', lazyLoad)
+      window.addEventListener('resize', lazyLoad)
+    })
+
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+console.log("I love HTML".replace('HTML', "$& and JavaScript"))

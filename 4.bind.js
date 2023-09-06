@@ -7,3 +7,5 @@ Function.prototype.myBind = function(context, ...args) {
   fb.prototype = Object.create(self.prototype)
   return fb
 }
+
+// 闭包的应用

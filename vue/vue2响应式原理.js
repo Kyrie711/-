@@ -28,7 +28,7 @@ class Watcher {
 Dep.target = null
 
 function defineReactive(obj, key, val) {
-  const dep = new Dep()
+  const dep = new Dep() // 每个 key 都有一个dep
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,

@@ -17,7 +17,7 @@ Promise.prototype.myAll = function(promises) {
     const result = []
     let n = promises.length
     for(let i = 0; i < n; i++) {
-      promises[i].then(res => {
+      Promise.resolve(promises[i]).then(res => {
         // result.push(res)  不用push 顺序不一致了
         result[i] = res 
         if(++count === n) resolve(result)

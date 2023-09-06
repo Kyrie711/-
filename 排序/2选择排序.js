@@ -1,15 +1,3 @@
-// function choose(arr) {
-//   for(let i = 0; i < arr.length - 1; i++) {
-//     let minIndex = i,min = arr[i]
-//     for(let j = i; j < arr.length; j++) {
-//       if(arr[j] < min) {
-//         minIndex = j
-//         min = arr[j]
-//       }
-//     }
-//     [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]]
-//   }
-// }
 function choose(arr) {
   for(let i = 0; i < arr.length - 1; i++) {
     let minIndex = i
